@@ -1,0 +1,17 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: order-worker-component
+spec:
+  workloadType: core.oam.dev/v1alpha1.Worker
+  containers:
+    - name: order-worker-container
+      image: tomkerkhove/keda-sample-dotnet-worker-servicebus-queue
+      env:
+        - name: KEDA_SERVICEBUS_QUEUE_CONNECTIONSTRING
+          fromParam: ServiceBus_Queue_Connectionstring
+  parameters:
+    - name: ServiceBus_Queue_Connectionstring
+      description: 'Connection string for the Azure Service Bus queue'
+      type: string
+      required: true

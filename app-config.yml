@@ -1,0 +1,25 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ApplicationConfiguration
+metadata:
+  name: order-demo
+spec:
+  components:
+    - componentName: order-api-component
+      instanceName: order-api
+      parameterValues:
+        - name: ServiceBus_Queue_Connectionstring
+          value: "<connection-string>"
+      traits:
+        - name: ingress
+          properties:
+            hostname: promitor-public-0d2daf06.hcp.westeurope.azmk8s.io
+            path: /oam
+            service_port: 80
+        - name: manual-scaler
+          properties:
+            replicaCount: 3
+    - componentName: order-worker-component
+      instanceName: order-worker
+      parameterValues:
+        - name: ServiceBus_Queue_Connectionstring
+          value: "<connection-string>"
